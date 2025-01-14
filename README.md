@@ -8,9 +8,18 @@ With this script, using automatically downloaded blocklists with blocking rules 
 
 ## Usage
 
-dl-blocklist \<src url> \<dst path> 
-- src url: URL for blocklist download
-- dst path: destination path to save filtered blocklist to, if destination is directory, basename from url is used as filename
+~~~
+usage: dl-blocklist [-h] [-l] url destination
+
+positional arguments:
+  url
+  destination
+
+options:
+  -h, --help   show this help message and exit
+  -l, --lax    set network filter in lax-mode
+~~~
+
 
 ## Examples
 ~~~sh
@@ -22,20 +31,33 @@ dl-blocklist "https://github.com/firehol/blocklist-ipsets/raw/refs/heads/master/
 
 ## Supported list types
 
-#### hosts file
+#### hosts file like syntax
+
+One IP and canonical hostname pair in each line separated with space, where IP is either "127.0.0.1", "0.0.0.0" or "::1". Alias definitions are ignored. Valid IP's are filtered out as not being valid canonical hostnames but invalid addresses, like 999.999.999.999, are not filtered.
 
 ~~~
 # this is a comment, it's ignored
-0.0.0.0 www.domain.com # this is ignored
+0.0.0.0 www.domain.com # this comment is ignored too
 127.0.0.1 www.domain.com
 ~~~
 
+More information on ipaddress.ip\_address(): https://docs.python.org/3/howto/ipaddress.html
+
 #### list of IPs / networks
+
+One IP or network definition per line. Lines with more then one definition are ignored.
+
+# strict mode (default)
+Network definitions like 254.254.254.254/8 and 255.255.255.255/8 are filtered.
+# lax mode (with -l or --lax)
+Network definitions like 254.254.254.254/8 and 255.255.255.255/8 are allowed.
+
+More information on ipaddress.ip\_network(): https://docs.python.org/3/howto/ipaddress.html
 
 ~~~
 # this is a comment, it's ignored
 1.2.3.4
-5.6.7.8 # this is ignored
+5.6.7.8 # this comment is ignored too
 1.0.1.0/24
 254.0.0.0/8
 ~~~
