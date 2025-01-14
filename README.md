@@ -23,16 +23,14 @@ dl-blocklist \<src url> \<dst path>
 
 #### hosts file
 
-```# this is a comment, it's ignored
-0.0.0.0 www.domain.com
-127.0.0.1 www.domain.com
-```
+>\# this is a comment, it's ignored<br>
+>0.0.0.0 www.domain.com<br>
+>127.0.0.1 www.domain.com<br>
 
 #### list of IPs / networks
 
-```# this is a comment, it's ignored
-1.2.3.4
-5.6.7.8
-1.0.1.0/24
-254.0.0.0/8
-```
+>\# this is a comment, it's ignored<br>
+>1.2.3.4<br>
+>5.6.7.8<br>
+>1.0.1.0/24<br>
+>254.0.0.0/8<br>
