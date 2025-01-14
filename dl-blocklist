@@ -56,7 +56,7 @@ def valid_domain(domain):
     {2,127}                # max. 127 levels
     ''', domain, re.X | re.I)
 
-def validate_line(line):
+def valid_line(line):
   parts = line.split()
   if len(parts) == 1 and valid_net(parts[0]):
     return (True, parts[0])
@@ -91,7 +91,7 @@ def download(url, filename):
           continue
         if verbose > 1:
           print(f"Processing line \"{line}\"", end='')
-        (validated, clean_line) = validate_line(line)
+        (validated, clean_line) = valid_line(line)
         if not validated:
           if verbose > 1:
             print("...filtered")
