@@ -14,6 +14,7 @@ bl_nets = ( "127.", "10.", "172.16.", "192.168.", "FC00::", "FD00::")
 bl_host = ( "localhost", "local", "ip6-localhost", "ip6-loopback" )
 
 strict = True
+verbose = 0
 
 def valid_ip(address, blacklist=True):
   # upper() is to normalize IPv6 addresses
@@ -66,26 +67,42 @@ def remove_comment(line):
   else:
     return line
 
-def dst_name(url, filename):
+def get_dst_name(url, filename):
   if os.path.isdir(filename):
     return os.path.join(filename, os.path.basename(urlparse(url).path))
   else:
     return filename
 
 def download(url, filename):
-  filename = dst_name(url, filename)
+  dst_name = get_dst_name(url, filename)
   resp = requests.get(url)
+  total = 0
+  added = 0
   if resp.status_code == 200:
     try:
-      file = open(filename, "w")
+      file = open(dst_name, "w")
       for line in resp.text.strip().split('\n'):
+        total += 1
         line = remove_comment(line)
         if line == "":
           continue
+        if verbose > 1:
+          print(f"Processing line \"{line}\"", end='')
         if not validate_line(line):
+          if verbose > 1:
+            print("...filtered")
           continue
-        file.write(line + "\n")        
+        added += 1
+        if verbose > 1:
+          print("...writing to destination file")
+        file.write(line + "\n")
       file.close()
+
+      if verbose > 0:
+        bname = os.path.basename(dst_name)
+        filtered = total - added
+        print(f"{bname}: total={total}, added={added}, filtered={filtered}")
+
     except:
       print(f"ERROR: Couldn't save blocklist \"{filename}\" from \"{url}\"")
   else:
@@ -99,7 +116,16 @@ if __name__ == "__main__":
   parser.add_argument('url', help="URL to download blocklist from.")
   parser.add_argument('destination', help="Destination filename or directory. In case of directory, basename from URL is used as filename.")
   parser.add_argument('-l', '--lax', action="store_true", help="set network filter in lax-mode")
+  parser.add_argument('-v', '--verbose', action="count", help="increase verbosity, max 2 times")
 
   args = parser.parse_args()
   strict = not args.lax
+
+  if args.verbose == None:
+    verbose = 0
+  else:
+    if args.verbose > 2:
+      args.verbose = 2
+    verbose = args.verbose
+
   download(args.url, args.destination)
