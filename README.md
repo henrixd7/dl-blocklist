@@ -40,7 +40,7 @@ dl-blocklist "https://github.com/firehol/blocklist-ipsets/raw/refs/heads/master/
 
 ### hosts file
 
-One IP and canonical hostname pair in each line separated with space, where IP is either "127.0.0.1", "0.0.0.0" or "::1". Alias definitions are ignored. Valid IP's are filtered out as not being valid canonical hostnames but invalid addresses, like 999.999.999.999, are not filtered. Technically this is not correct because TLD can't be numeric, so this can't be fully qualified domain but I don't consider that critical for now.
+One IP and domainname pair in each line separated with whitespace, where IP is either "127.0.0.1", "0.0.0.0" or "::1". Any host alias definitions are ignored.
 
 ~~~
 # this is a comment, it's ignored

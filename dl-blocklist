@@ -53,13 +53,27 @@ def valid_hostname(hostname):
   allowed = re.compile("(?!-)[A-Z\d-]{1,63}(?<!-)$", re.IGNORECASE)
   return all(allowed.match(x) for x in hostname.split("."))
 
+# https://ataiva.com/how-to-create-a-domain-name-validator-in-python/
+def valid_domain(domain):
+  return re.match('''
+    (?=^.{,253}$)          # max. length 253 chars
+    (?!^.+\.\d+$)          # TLD is not fully numerical
+    (?=^[^-.].+[^-.]$)     # doesn't start/end with '-' or '.'
+    (?!^.+(\.-|-\.).+$)    # levels don't start/end with '-'
+    (?:[a-z\d-]            # uses only allowed chars
+    {1,63}(\.|$))          # max. level length 63 chars
+    {2,127}                # max. 127 levels
+    ''', domain, re.X | re.I)
+
 def validate_line(line):
-  parts = line.split(" ")
-  if len(parts) == 1 and (valid_ip(parts[0]) or valid_net(parts[0])):
-    return True
-  if len(parts) >= 2 and valid_block_ip(parts[0]) and valid_hostname(parts[1]):
-    return True
-  return False
+  parts = line.split()
+  #if len(parts) == 1 and (valid_ip(parts[0]) or valid_net(parts[0])):
+  if len(parts) == 1 and valid_net(parts[0]):
+    return (True, parts[0])
+  #if len(parts) >= 2 and valid_block_ip(parts[0]) and valid_hostname(parts[1]):
+  if len(parts) >= 2 and valid_block_ip(parts[0]) and valid_domain(parts[1]):
+    return (True, f"{parts[0]} {parts[1]}")
+  return (False, None)
 
 def remove_comment(line):
   if line.find("#"):
@@ -88,14 +102,15 @@ def download(url, filename):
           continue
         if verbose > 1:
           print(f"Processing line \"{line}\"", end='')
-        if not validate_line(line):
+        (validated, clean_line) = validate_line(line)
+        if not validated:
           if verbose > 1:
             print("...filtered")
           continue
         added += 1
         if verbose > 1:
-          print("...writing to destination file")
-        file.write(line + "\n")
+          print("...added")
+        file.write(clean_line + "\n")
       file.close()
 
       if verbose > 0:
