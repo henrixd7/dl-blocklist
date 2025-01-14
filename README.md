@@ -9,7 +9,7 @@ This script is meant to download IP/host bloclists of malicious hosts, AD server
 
 Downloaded lists are parsed and filtered to make sure that resulting list is always suntactically intact and filters out some obviously bad things like trying to block localhost or lan addresses. This script supports hosts file syntax and IP/network lists defined below in more detail.
 
-With this script, using automatically downloaded blocklists with firewalls and other software in an automated way should be little bit safer.
+With this script, using programmatically downloaded blocklists with firewalls and other software should be little bit safer.
 
 ## Usage
 
