@@ -2,9 +2,14 @@
 
 Automated hosts blocklist download in a slightly more secure way.
 
-This script parses the downloaded blocklist and filters items to make sure that result is always syntactically intact and filters out some obvious things like blocking localhost or lan addresses. Supports hosts file like syntax with slightly stricter rules and IP/network list defined in more detail below.
+This script is meant to download IP/host bloclists of malicious hosts, AD servers, trackers or malware networks like:
+- Steven Black's list of malicious hosts: https://github.com/StevenBlack/hosts
+- Firehol IP-lists: https://iplists.firehol.org/?ipset=firehol_level4
+- Yoyo AD servers: https://pgl.yoyo.org/adservers/
 
-With this script, using automatically downloaded blocklists with blocking rules should be little bit safer.
+Downloaded lists are parsed and filtered to make sure that resulting list is always suntactically intact and filters out some obviously bad things like trying to block localhost or lan addresses. This script supports hosts file syntax and IP/network lists defined below in more detail.
+
+With this script, using automatically downloaded blocklists with firewalls and other software in a automated way should be little bit safer.
 
 ## Usage
 
