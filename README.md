@@ -12,8 +12,9 @@ With this script, using automatically downloaded blocklists with blocking rules 
 usage: dl-blocklist [-h] [-l] url destination
 
 positional arguments:
-  url
-  destination
+  url          URL to download blocklist from.
+  destination  Destination filename or directory. In case of directory, basename from URL is used as
+               filename.
 
 options:
   -h, --help   show this help message and exit
