@@ -48,13 +48,6 @@ More information on ipaddress.ip\_address(): https://docs.python.org/3/howto/ipa
 
 One IP or network definition per line. Lines with more then one definition are ignored.
 
-###### strict mode (default):
-Network definitions like 254.254.254.254/8 and 255.255.255.255/8 are filtered.
-###### lax mode (with -l or --lax):
-Network definitions like 254.254.254.254/8 and 255.255.255.255/8 are allowed.
-
-More information on ipaddress.ip\_network(): https://docs.python.org/3/howto/ipaddress.html
-
 ~~~
 # this is a comment, it's ignored
 1.2.3.4
@@ -62,3 +55,10 @@ More information on ipaddress.ip\_network(): https://docs.python.org/3/howto/ipa
 1.0.1.0/24
 254.0.0.0/8
 ~~~
+
+###### strict mode (default):
+Network definitions like 254.254.254.254/8 and 255.255.255.255/8 are filtered.
+###### lax mode (with -l or --lax):
+Network definitions like 254.254.254.254/8 and 255.255.255.255/8 are allowed.
+
+More information on ipaddress.ip\_network(): https://docs.python.org/3/howto/ipaddress.html
