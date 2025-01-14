@@ -62,8 +62,8 @@ One IP or network definition per line. Lines with more then one definition are i
 ~~~
 
 ###### strict mode (default):
-Any host bits can't be set, so network definitions like 254.254.254.254/8 and 255.255.255.255/8 are filtered out.
+Any host bits can't be set, so network definitions like 254.254.254.254/16 and 255.255.255.255/8 are filtered out.
 ###### lax mode (with -l or --lax):
-Network definitions like 254.254.254.254/8 and 255.255.255.255/8 are allowed.
+Network definitions like 254.254.254.254/16 and 255.255.255.255/8 are allowed.
 
 More information on ipaddress.ip\_network(): https://docs.python.org/3/howto/ipaddress.html
