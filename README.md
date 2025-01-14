@@ -32,7 +32,7 @@ dl-blocklist "https://github.com/firehol/blocklist-ipsets/raw/refs/heads/master/
 
 ## Supported list types
 
-#### hosts file like syntax
+### hosts file like syntax
 
 One IP and canonical hostname pair in each line separated with space, where IP is either "127.0.0.1", "0.0.0.0" or "::1". Alias definitions are ignored. Valid IP's are filtered out as not being valid canonical hostnames but invalid addresses, like 999.999.999.999, are not filtered.
 
@@ -44,13 +44,13 @@ One IP and canonical hostname pair in each line separated with space, where IP i
 
 More information on ipaddress.ip\_address(): https://docs.python.org/3/howto/ipaddress.html
 
-#### list of IPs / networks
+### list of IPs / networks
 
 One IP or network definition per line. Lines with more then one definition are ignored.
 
-#### strict mode (default)
+###### strict mode (default)
 Network definitions like 254.254.254.254/8 and 255.255.255.255/8 are filtered.
-#### lax mode (with -l or --lax)
+###### lax mode (with -l or --lax)
 Network definitions like 254.254.254.254/8 and 255.255.255.255/8 are allowed.
 
 More information on ipaddress.ip\_network(): https://docs.python.org/3/howto/ipaddress.html
