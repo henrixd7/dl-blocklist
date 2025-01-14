@@ -24,6 +24,7 @@ positional arguments:
 options:
   -h, --help   show this help message and exit
   -l, --lax    set network filter in lax-mode
+  -v, --verbose  increase verbosity, max 2 times
 ~~~
 
 
