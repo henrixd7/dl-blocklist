@@ -29,11 +29,29 @@ options:
 
 
 ## Examples
+###### /root/bin/dl-blocklists
 ~~~sh
 #!/bin/sh
 dl-blocklist "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" /var/blocklists/steven-black.txt
 dl-blocklist "https://pgl.yoyo.org/adservers/serverlist.php?showintro=0;hostformat=hosts" /var/blocklists/yoyo-adservers.txt
 dl-blocklist "https://github.com/firehol/blocklist-ipsets/raw/refs/heads/master/firehol_level4.netset" /var/blocklists/firehol_level4.txt
+~~~
+
+###### /etc/systemd/system/opensnitch.service.d/download-blocklist.conf
+~~~
+[Service]
+ExecStartPre=/root/bin/dl-blocklists
+~~~
+
+###### /etc/cron.daily/dl-blocklists.sh
+~~~
+#!/bin/sh
+cat /etc/hosts.template > tmp_hosts
+/root/bin/dl-blocklist "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" /tmp/steven-black.txt
+cat /tmp/steven-black.txt >> tmp_hosts
+rm /tmp/steven-black.txt
+cp /etc/hosts /etc/hosts.old
+mv tmp_hosts /etc/hosts
 ~~~
 
 ## Supported list types
