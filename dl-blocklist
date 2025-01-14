@@ -91,9 +91,6 @@ def download(url, filename):
   else:
     print(f"ERROR: Couldn't donwload \"{filename}\" from \"{url}\"")
 
-def set_lax():
-  strict = False
-
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(
     prog=os.path.basename(sys.argv[0]),
@@ -104,4 +101,5 @@ if __name__ == "__main__":
   parser.add_argument('-l', '--lax', action="store_true", help="set network filter in lax-mode")
 
   args = parser.parse_args()
+  strict = not args.lax
   download(args.url, args.destination)
