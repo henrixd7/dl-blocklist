@@ -14,7 +14,7 @@ With this script, using programmatically downloaded blocklists with firewalls an
 ## Usage
 
 ~~~
-usage: dl-blocklist [-h] [-l] url destination
+usage: dl-blocklist [-h] [-l] [-v] url destination
 
 positional arguments:
   url          URL to download blocklist from.
@@ -38,7 +38,7 @@ dl-blocklist "https://github.com/firehol/blocklist-ipsets/raw/refs/heads/master/
 
 ## Supported list types
 
-### hosts file like syntax
+### hosts file
 
 One IP and canonical hostname pair in each line separated with space, where IP is either "127.0.0.1", "0.0.0.0" or "::1". Alias definitions are ignored. Valid IP's are filtered out as not being valid canonical hostnames but invalid addresses, like 999.999.999.999, are not filtered.
 
