@@ -1,8 +1,8 @@
 # dl-blocklist
 
-Automated blocklist download in a slightly more secure way.
+Automated hosts blocklist download in a slightly more secure way.
 
-This script parses the downloaded blocklist and filters items to make sure that result is always syntactically intact and filters some obvious things like blocking localhost.
+This script parses the downloaded blocklist and filters items to make sure that result is always syntactically intact and filters out some obvious things like blocking localhost or lan addresses. Supports hosts file like syntax with slightly stricter rules and IP/network list defined in more detail below.
 
 With this script, using automatically downloaded blocklists with blocking rules should be little bit safer.
 
