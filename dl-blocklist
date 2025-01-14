@@ -1,0 +1,104 @@
+#!/usr/bin/python3
+
+import os
+import re
+import sys
+import requests
+import ipaddress
+from urllib.parse import urlparse
+
+# not allowed addresses and networks
+bl_addr = ( "127.0.0.1", "::1", "0.0.0.0" )
+bl_nets = ( "127.", "10.", "172.16.", "192.168.", "FC00::", "FD00::")
+bl_host = ( "localhost", "local", "ip6-localhost", "ip6-loopback")
+
+def valid_ip(address):
+  # upper() is to normalize IPv6 addresses
+  if address.upper().startswith(bl_addr):
+    return False
+  try:
+    ipaddress.ip_address(address)
+    return True
+  except:
+    return False
+
+def valid_net(address):
+  # upper() is to normalize IPv6 addresses
+  if address.upper().startswith(bl_nets):
+    return False
+  try:
+    ipaddress.ip_network(address)
+    return True
+  except:
+    return False
+
+def valid_block_ip(address):
+  if address == "0.0.0.0" or address == "127.0.0.1" or address == "::1":
+    return True
+  else:
+    return False
+
+def valid_hostname(hostname):
+  if hostname.lower().startswith(bl_host):
+    return False
+  if len(hostname) > 255:
+      return False
+  if hostname[-1] == ".":
+      hostname = hostname[:-1] # strip exactly one dot from the right, if present
+  allowed = re.compile("(?!-)[A-Z\d-]{1,63}(?<!-)$", re.IGNORECASE)
+  return all(allowed.match(x) for x in hostname.split("."))
+
+def validate_line(line):
+  parts = line.split(" ")
+  if len(parts) == 1 and (valid_ip(parts[0]) or valid_net(parts[0])):
+    return True
+  if len(parts) == 2 and valid_block_ip(parts[0]) and valid_hostname(parts[1]):
+    return True
+  return False
+
+def remove_comment(line):
+  if line.find("#"):
+    return line.split("#")[0].strip()
+  else:
+    return line
+
+def dst_name(url, filename):
+  if os.path.isdir(filename):
+    return os.path.join(filename, os.path.basename(urlparse(url).path))
+  else:
+    return filename
+
+def download(url, filename):
+  filename = dst_name(url, filename)
+  resp = requests.get(url)
+  buf = ""
+  if resp.status_code == 200:
+    try:
+      file = open(filename, "w")
+      for line in resp.text.strip().split('\n'):
+        line = remove_comment(line)
+        if line == "":
+          continue
+        if not validate_line(line):
+          continue
+        file.write(line + "\n")        
+      file.close()
+    except:
+      print(f"ERROR: Couldn't save blocklist \"{filename}\" from \"{url}\"")
+  else:
+    print(f"ERROR: Couldn't donwload \"{filename}\" from \"{url}\"")
+
+def usage():
+  print()
+  print(f"Usage: {os.path.basename(sys.argv[0])} <src url> <dl path>")
+  print()
+  print("src url:\tURL for blocklist download")
+  print("dl path:\tdestination path to save filtered blocklist to")
+  print("\t\tif destination is directory, basename from url is used as filename")
+  print()
+  sys.exit(1)
+
+if __name__ == "__main__":
+  if len(sys.argv) != 3:
+    usage()
+  download(sys.argv[1], sys.argv[2])
