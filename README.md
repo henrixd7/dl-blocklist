@@ -2,9 +2,9 @@
 
 Automated blocklist download in a slightly more secure way.
 
-This script parses the downloaded blocklist and filters items to make sure that result is always syntactically intact and nothing malicious or harmful couldn't be sneaked in.
+This script parses the downloaded blocklist and filters items to make sure that result is always syntactically intact and filters some obvious things like blocking localhost.
 
-With this script, using automatically downloaded blocklists should be little bit safer with blocking rules.
+With this script, using automatically downloaded blocklists with blocking rules should be little bit safer.
 
 ## Usage
 
