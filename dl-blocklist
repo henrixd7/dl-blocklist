@@ -71,7 +71,6 @@ def dst_name(url, filename):
 def download(url, filename):
   filename = dst_name(url, filename)
   resp = requests.get(url)
-  buf = ""
   if resp.status_code == 200:
     try:
       file = open(filename, "w")
